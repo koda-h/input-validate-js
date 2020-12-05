@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,noarchive">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script type="text/javascript" src="https://github.com/niwaringo/moji/releases/download/V1.2.0/moji.js"></script>
+    <script type="text/javascript" src="input-validate.js"></script>
+</head>
+<body>
+<div id="app">
+    <main class="py-4">
+        <div class="container">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-header">Forn Input Validation</div>
+
+                    <div class="card-body">
+                        <label>ひらがなのみに変換(スペース含む)</label>
+                        <input class="form-control" name="convert_hiragana" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>半角カナのみに変換(スペース含む)</label>
+                        <input class="form-control" name="convert_half_kana" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>口座振替で許容する半角カナのみに変換(スペース含む)</label>
+                        <input class="form-control" name="convert_half_kana_direct_debit" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>全角カナのみに変換(スペース含む)</label>
+                        <input class="form-control" name="convert_full_kana" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>全角のみに変換(スペース含む)</label>
+                        <input class="form-control" name="convert_full" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>全角のみに変換(スペース含む・記号は許可しない)</label>
+                        <input class="form-control" name="convert_full_not_symbol" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>半角カナ大文字のみに変換(スペース含む)</label>
+                        <input class="form-control" name="convert_half_large_kana" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>半角カナのみに変換(長音はハイフンマイナスに変換)(スペース含む)</label>
+                        <input class="form-control" name="convert_half_large_kana_hyphen" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>半角英数に変換(スペース除去)</label>
+                        <input class="form-control" name="convert_half_alpha_numeric" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>半角英数記号に変換(スペース除去)</label>
+                        <input class="form-control" name="convert_half_alpha_numeric_symbol" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>半角英数に変換(スペース含む)</label>
+                        <input class="form-control" name="convert_half_alpha_numeric_allow_space" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>半角数字に変換(スペース除去)</label>
+                        <input class="form-control" name="convert_half_numeric" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>半角数字に変換(スペース含む)</label>
+                        <input class="form-control" name="convert_half_numeric" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>半角数字(0以上の整数)に変換(スペース除去)</label>
+                        <input class="form-control" name="convert_half_integer" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>半角数字(0以上の整数)に変換(スペース除去) ピリオドあり</label>
+                        <input class="form-control" name="convert_half_integer_period" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>電話番号文字列(半角数字+ハイフンマイナス)に変換(スペース除去)</label>
+                        <input class="form-control" name="convert_tel" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>電話番号にハイフンを付与</label>
+                        <input class="form-control" name="format_tel" type="text" value="">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+
+<script>
+    var isComposing = false;
+    // ひらがなのみに変換(スペース含む)
+    $('[name="convert_hiragana"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_hiragana(this, event.type);
+    });
+
+    // 半角カナのみに変換(スペース含む)
+    $('[name="convert_half_kana"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_half_kana(this, event.type);
+    });
+
+    // 口座振替で許容する半角カナのみに変換(スペース含む)
+    $('[name="convert_half_kana_direct_debit"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_half_kana_direct_debit(this, event.type);
+    });
+
+    // 全角カナのみに変換(スペース含む)
+    $('[name="convert_full_kana"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_full_kana(this, event.type);
+    });
+
+    //  全角のみに変換(スペース含む)
+    $('[name="convert_full"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_full(this, event.type);
+    });
+
+    // 全角のみに変換(スペース含む・記号は許可しない)
+    $('[name="convert_full_not_symbol"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_full_not_symbol(this, event.type);
+    });
+    // 半角カナ大文字のみに変換(スペース含む)
+    $('[name="convert_half_large_kana"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_half_large_kana(this, event.type);
+    });
+
+    // 半角カナのみに変換(長音はハイフンマイナスに変換)(スペース含む)
+    $('[name="convert_half_large_kana_hyphen"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_half_large_kana_hyphen(this, event.type);
+    });
+
+    // 半角英数に変換(スペース除去)
+    $('[name="convert_half_alpha_numeric"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_half_alpha_numeric(this, event.type);
+    });
+
+    // 半角英数記号に変換(スペース除去)
+    $('[name="convert_half_alpha_numeric_symbol"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_half_alpha_numeric_symbol(this, event.type);
+    });
+
+    // 半角英数に変換(スペース含む)
+    $('[name="convert_half_alpha_numeric_allow_space"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_half_alpha_numeric_allow_space(this, event.type);
+    });
+
+    // 半角数字に変換(スペース除去)
+    $('[name="convert_half_numeric"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_half_numeric(this, event.type);
+    });
+
+    // 半角数字に変換(スペース含む)
+    $('[name="convert_half_numeric_allow_space"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_half_numeric_allow_space(this, event.type);
+    });
+
+    // 半角数字(0以上の整数)に変換(スペース除去)
+    $('[name="convert_half_integer"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_half_integer(this, event.type);
+    });
+
+    // 半角数字(0以上の整数)に変換(スペース除去) ピリオドあり
+    $('[name="convert_half_integer_period"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_half_integer_period(this, event.type);
+    });
+
+    // 電話番号文字列(半角数字+ハイフンマイナス)に変換(スペース除去)
+    $('[name="convert_tel"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_tel(this, event.type);
+    });
+
+    // 電話番号にハイフンを付与
+    $('[name="format_tel"]').on('keyup blur compositionstart compositionend', function (event) {
+        format_tel(this);
+    });
+</script>
+</body>
+</html>
