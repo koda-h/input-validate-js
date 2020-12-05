@@ -69,13 +69,23 @@ function convert_half_large_kana(element, event, max_length = null) {
 }
 
 /**
- * 半角カナのみに変換(長音はハイフンマイナスに変換)(スペース含む)
+ * 半角カナ大文字のみに変換(長音はハイフンマイナスに変換)(スペース含む)
  * @param element
  * @param event
  * @param max_length
  */
 function convert_half_large_kana_hyphen(element, event, max_length = null) {
     convert_input_string(element, event, 'half_large_kana_hyphen', true, max_length);
+}
+
+/**
+ * 半角カナ大文字英数のみに変換(長音はハイフンマイナスに変換)(スペース含む)
+ * @param element
+ * @param event
+ * @param max_length
+ */
+function convert_half_large_kana_alphabet_hyphen(element, event, max_length = null) {
+    convert_input_string(element, event, 'half_large_kana_alphabet_hyphen', true, max_length);
 }
 
 /**
@@ -206,6 +216,18 @@ function convert_input_string(element, event, convert_type, allow_space = true, 
                         break;
 
                     case 'half_large_kana_hyphen':
+                        converted = $(element).val().replace(/[ー]+/g, 'ｰ');
+                        converted = converted.replace(/[ｰ]+/g, '-');
+                        converted = converted.replace(/[ぁ]+/g,'ァ'); // ぁ のみmoji.jsで変換できないのでここで変換
+
+                        converted = moji(converted).convert('ZE', 'HE').convert('HG', 'KK').convert("ZK", "HK").toString();
+                        converted = converted.replace(/[^ｦ-ﾟ \-\･\.]+/g,''); //半角カナ・ハイフン・スペース・中点・ピリオド以外を除去
+
+                        converted = kana_small_to_kana_large(converted);
+
+                        break;
+
+                    case 'half_large_kana_alphabet_hyphen':
                         converted = $(element).val().replace(/[ー]+/g, 'ｰ');
                         converted = converted.replace(/[ｰ]+/g, '-');
                         converted = converted.replace(/[ぁ]+/g,'ァ'); // ぁ のみmoji.jsで変換できないのでここで変換

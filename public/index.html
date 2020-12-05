@@ -46,8 +46,12 @@
                         <input class="form-control" name="convert_half_large_kana" type="text" value="">
                     </div>
                     <div class="card-body">
-                        <label>半角カナのみに変換(長音はハイフンマイナスに変換)(スペース含む)</label>
+                        <label>半角カナ大文字のみに変換(長音はハイフンマイナスに変換)(スペース含む)</label>
                         <input class="form-control" name="convert_half_large_kana_hyphen" type="text" value="">
+                    </div>
+                    <div class="card-body">
+                        <label>半角カナ大文字英数のみに変換(長音はハイフンマイナスに変換)(スペース含む)</label>
+                        <input class="form-control" name="convert_half_large_kana_alphabet_hyphen" type="text" value="">
                     </div>
                     <div class="card-body">
                         <label>半角英数に変換(スペース除去)</label>
@@ -133,9 +137,14 @@
         convert_half_large_kana(this, event.type);
     });
 
-    // 半角カナのみに変換(長音はハイフンマイナスに変換)(スペース含む)
+    // 半角カナ大文字のみに変換(長音はハイフンマイナスに変換)(スペース含む)
     $('[name="convert_half_large_kana_hyphen"]').on('keyup blur compositionstart compositionend', function (event) {
         convert_half_large_kana_hyphen(this, event.type);
+    });
+
+    // 半角カナ大文字英数のみに変換(長音はハイフンマイナスに変換)(スペース含む)
+    $('[name="convert_half_large_kana_alphabet_hyphen"]').on('keyup blur compositionstart compositionend', function (event) {
+        convert_half_large_kana_alphabet_hyphen(this, event.type);
     });
 
     // 半角英数に変換(スペース除去)
