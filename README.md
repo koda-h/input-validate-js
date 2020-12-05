@@ -3,6 +3,8 @@
 form inputに入力した文字の変換・バリデーションを行います。<br>
 文字の変換は<a href="https://github.com/niwaringo/moji" target="_blink">moji.js</a>を利用しています。
 
+説明記事: https://qiita.com/koda-h/items/cdf8479440491542daec
+
 ## 利用方法
 
 ```
